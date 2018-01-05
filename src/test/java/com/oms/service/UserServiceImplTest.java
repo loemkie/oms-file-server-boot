@@ -1,6 +1,6 @@
 package com.oms.service;
 
-import com.oms.domain.User;
+import com.oms.domain.SysUser;
 import com.oms.repository.UserRepository;
 import com.oms.service.exception.UserAlreadyExistsException;
 import com.oms.util.UserUtil;
@@ -31,17 +31,17 @@ public class UserServiceImplTest {
 
     @Test
     public void shouldSaveNewUser_GivenThereDoesNotExistOneWithTheSameId_ThenTheSavedUserShouldBeReturned() throws Exception {
-        final User savedUser = stubRepositoryToReturnUserOnSave();
-        final User user = UserUtil.createUser();
-        final User returnedUser = userService.save(user);
+        final SysUser savedUser = stubRepositoryToReturnUserOnSave();
+        final SysUser user = UserUtil.createUser();
+        final SysUser returnedUser = userService.save(user);
         // verify repository was called with user
         verify(userRepository, times(1)).save(user);
         assertEquals("Returned user should come from the repository", savedUser, returnedUser);
     }
 
-    private User stubRepositoryToReturnUserOnSave() {
-        User user = UserUtil.createUser();
-        when(userRepository.save(any(User.class))).thenReturn(user);
+    private SysUser stubRepositoryToReturnUserOnSave() {
+    	SysUser user = UserUtil.createUser();
+        when(userRepository.save(any(SysUser.class))).thenReturn(user);
         return user;
     }
 
@@ -53,18 +53,18 @@ public class UserServiceImplTest {
             fail("Expected exception");
         } catch (UserAlreadyExistsException ignored) {
         }
-        verify(userRepository, never()).save(any(User.class));
+        verify(userRepository, never()).save(any(SysUser.class));
     }
 
     private void stubRepositoryToReturnExistingUser() {
-        final User user = UserUtil.createUser();
+        final SysUser user = UserUtil.createUser();
         when(userRepository.findOne(user.getId())).thenReturn(user);
     }
 
     @Test
     public void shouldListAllUsers_GivenThereExistSome_ThenTheCollectionShouldBeReturned() throws Exception {
         stubRepositoryToReturnExistingUsers(10);
-        Collection<User> list = userService.getList();
+        Collection<SysUser> list = userService.getList();
         assertNotNull(list);
         assertEquals(10, list.size());
         verify(userRepository, times(1)).findAll();
@@ -77,7 +77,7 @@ public class UserServiceImplTest {
     @Test
     public void shouldListAllUsers_GivenThereNoneExist_ThenTheEmptyCollectionShouldBeReturned() throws Exception {
         stubRepositoryToReturnExistingUsers(0);
-        Collection<User> list = userService.getList();
+        Collection<SysUser> list = userService.getList();
         assertNotNull(list);
         assertTrue(list.isEmpty());
         verify(userRepository, times(1)).findAll();

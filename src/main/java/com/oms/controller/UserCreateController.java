@@ -1,6 +1,6 @@
 package com.oms.controller;
 
-import com.oms.domain.User;
+import com.oms.domain.SysUser;
 import com.oms.domain.UserCreateForm;
 import com.oms.service.UserService;
 import com.oms.service.exception.UserAlreadyExistsException;
@@ -50,7 +50,7 @@ public class UserCreateController {
             return "user_create";
         }
         try {
-            userService.save(new User(form.getId(), form.getPassword2()));
+            userService.save(new SysUser(form.getId(), form.getPassword2()));
         } catch (UserAlreadyExistsException e) {
             LOGGER.debug("Tried to create user with existing id", e);
             result.reject("user.error.exists");

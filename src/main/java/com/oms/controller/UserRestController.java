@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.oms.domain.User;
+import com.oms.domain.SysUser;
 import com.oms.service.UserService;
 import com.oms.service.exception.UserAlreadyExistsException;
 
@@ -32,16 +32,16 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public User createUser(@RequestBody @Valid final User user) {
+    public SysUser createUser(@RequestBody @Valid final SysUser user) {
         LOGGER.debug("Received request to create the {}", user);
         return userService.save(user);
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public List<User> listUsers() {
-        /*LOGGER.debug("Received request to list all users");
-        return userService.getList();*/
-    	return new ArrayList<User>();
+    public List<SysUser> listUsers() {
+        LOGGER.debug("Received request to list all users");
+        return userService.getList();
+//    	return new ArrayList<User>();
     }
 
     @ExceptionHandler

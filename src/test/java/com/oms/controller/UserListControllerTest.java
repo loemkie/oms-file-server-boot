@@ -1,6 +1,6 @@
 package com.oms.controller;
 
-import com.oms.domain.User;
+import com.oms.domain.SysUser;
 import com.oms.service.UserService;
 import com.oms.util.UserUtil;
 import org.junit.Before;
@@ -39,8 +39,8 @@ public class UserListControllerTest {
                 userList, view.getModel().get("users"));*/
     }
 
-    private List<User> stubServiceToReturnExistingUsers(int howMany) {
-        List<User> userList = UserUtil.createUserList(howMany);
+    private List<SysUser> stubServiceToReturnExistingUsers(int howMany) {
+        List<SysUser> userList = UserUtil.createUserList(howMany);
         when(userService.getList()).thenReturn(userList);
         return userList;
     }

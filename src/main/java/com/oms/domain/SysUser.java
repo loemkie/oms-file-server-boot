@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-public class User {
+public class SysUser {
 
     @Id
     @NotNull
@@ -22,10 +22,10 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    private User() {
+    private SysUser() {
     }
 
-    public User(final String id, final String password) {
+    public SysUser(final String id, final String password) {
         this.id = id;
         this.password = password;
     }

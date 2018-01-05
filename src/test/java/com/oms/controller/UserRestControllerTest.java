@@ -1,6 +1,6 @@
 package com.oms.controller;
 
-import com.oms.domain.User;
+import com.oms.domain.SysUser;
 import com.oms.service.UserService;
 import com.oms.util.UserUtil;
 import org.junit.Before;
@@ -30,24 +30,24 @@ public class UserRestControllerTest {
 
     @Test
     public void shouldCreateUser() {
-        final User savedUser = stubServiceToReturnStoredUser();
-        final User user = UserUtil.createUser();
-        User returnedUser = userRestController.createUser(user);
+        final SysUser savedUser = stubServiceToReturnStoredUser();
+        final SysUser user = UserUtil.createUser();
+        SysUser returnedUser = userRestController.createUser(user);
         // verify user was passed to UserService
         verify(userService, times(1)).save(user);
         assertEquals("Returned user should come from the service", savedUser, returnedUser);
     }
 
-    private User stubServiceToReturnStoredUser() {
-        final User user = UserUtil.createUser();
-        when(userService.save(any(User.class))).thenReturn(user);
+    private SysUser stubServiceToReturnStoredUser() {
+        final SysUser user = UserUtil.createUser();
+        when(userService.save(any(SysUser.class))).thenReturn(user);
         return user;
     }
 
     @Test
     public void shouldListAllUsers() {
         stubServiceToReturnExistingUsers(10);
-        Collection<User> users = userRestController.listUsers();
+        Collection<SysUser> users = userRestController.listUsers();
         assertNotNull(users);
         assertEquals(10, users.size());
         // verify user was passed to UserService

@@ -1,13 +1,13 @@
 package com.oms.service;
 
-import com.oms.domain.User;
+import com.oms.domain.SysUser;
 
 import java.util.List;
 
 public interface UserService {
 
-    User save(User user);
+    SysUser save(SysUser user);
 
-    List<User> getList();
+    List<SysUser> getList();
 
 }

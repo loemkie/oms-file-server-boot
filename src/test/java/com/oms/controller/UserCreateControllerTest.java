@@ -1,6 +1,6 @@
 package com.oms.controller;
 
-import com.oms.domain.User;
+import com.oms.domain.SysUser;
 import com.oms.domain.UserCreateForm;
 import com.oms.service.UserService;
 import com.oms.service.exception.UserAlreadyExistsException;
@@ -52,7 +52,7 @@ public class UserCreateControllerTest {
         form.setPassword2("password");
         String view = userController.createUser(form, result);
         assertEquals("There should be proper redirect", "redirect:/user_list.html", view);
-        ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
+        ArgumentCaptor<SysUser> captor = ArgumentCaptor.forClass(SysUser.class);
         verify(userService, times(1)).save(captor.capture());
         assertEquals(form.getId(), captor.getValue().getId());
         assertEquals(form.getPassword1(), captor.getValue().getPassword());
@@ -62,14 +62,14 @@ public class UserCreateControllerTest {
     public void shouldCreateUser_GivenThereAreFormErrors_ThenTheFormShouldBeDisplayed() {
         when(result.hasErrors()).thenReturn(true);
         String view = userController.createUser(new UserCreateForm(), result);
-        verify(userService, never()).save(any(User.class));
+        verify(userService, never()).save(any(SysUser.class));
         assertEquals("View name should be right", "user_create", view);
     }
 
     @Test
     public void shouldCreateUser_GivenThereAlreadyExistUserWithId_ThenTheFormShouldBeDisplayed() {
         when(result.hasErrors()).thenReturn(false);
-        when(userService.save(any(User.class))).thenThrow(UserAlreadyExistsException.class);
+        when(userService.save(any(SysUser.class))).thenThrow(UserAlreadyExistsException.class);
         String view = userController.createUser(new UserCreateForm(), result);
         verify(result).reject("user.error.exists");
         assertEquals("View name should be right", "user_create", view);

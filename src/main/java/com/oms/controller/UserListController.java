@@ -11,7 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.oms.domain.User;
+import com.oms.domain.SysUser;
 import com.oms.service.UserService;
 
 @Controller

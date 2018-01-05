@@ -1,6 +1,6 @@
 package com.oms.util;
 
-import com.oms.domain.User;
+import com.oms.domain.SysUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +13,14 @@ public class UserUtil {
     private UserUtil() {
     }
 
-    public static User createUser() {
-        return new User(ID, PASSWORD);
+    public static SysUser createUser() {
+        return new SysUser(ID, PASSWORD);
     }
 
-    public static List<User> createUserList(int howMany) {
-        List<User> userList = new ArrayList<>();
+    public static List<SysUser> createUserList(int howMany) {
+        List<SysUser> userList = new ArrayList<>();
         for (int i = 0; i < howMany; i++) {
-            userList.add(new User(ID + "#" + i, PASSWORD));
+            userList.add(new SysUser(ID + "#" + i, PASSWORD));
         }
         return userList;
     }

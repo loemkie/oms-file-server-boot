@@ -1,18 +1,18 @@
 package com.oms.service;
 
-import com.oms.domain.User;
-import com.oms.repository.UserRepository;
-import com.oms.service.exception.UserAlreadyExistsException;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.inject.Inject;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.util.List;
+import com.oms.domain.SysUser;
+import com.oms.repository.UserRepository;
+import com.oms.service.exception.UserAlreadyExistsException;
 
 @Service
 @Validated
@@ -28,9 +28,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User save(User user) {
+    public SysUser save(SysUser user) {
         LOGGER.debug("Creating {}", user);
-        User existing = repository.findOne(user.getId());
+        SysUser existing = repository.findOne(user.getId());
         if (existing != null) {
             throw new UserAlreadyExistsException(
                     String.format("There already exists a user with id=%s", user.getId()));
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<User> getList() {
+    public List<SysUser> getList() {
         LOGGER.debug("Retrieving the list of all users");
         return repository.findAll();
     }
