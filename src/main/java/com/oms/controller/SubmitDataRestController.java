@@ -39,6 +39,9 @@ public class SubmitDataRestController {
         LOGGER.debug("Received request to create the {}", submitData);
         submitData.setId(UUID.randomUUID().toString().replaceAll("-", ""));
         submitData.setUpdate_date(new Date());
+        if(submitData.getSpec() == null){
+        	submitData.setSpec("0");
+        }
         return submitDataService.save(submitData);
     }
 
@@ -48,7 +51,10 @@ public class SubmitDataRestController {
         List<SubmitData> submitDataList =  submitDataService.getListBySql();
         String str = "";
         for (SubmitData submitData : submitDataList) {
-        	str=str+submitData.getMobile()+"|"+submitData.getCard_id()+"|"+DateUtils.formatDate(submitData.getUpdate_date())+"<br>";
+        	if(submitData.getSpec()==null){
+        		submitData.setSpec("");
+        	}
+        	str=str+submitData.getMobile()+"|"+submitData.getSpec()+"|"+submitData.getOffice_id()+"|"+submitData.getCard_id()+"|"+DateUtils.formatDate(submitData.getUpdate_date())+"<br>";
 		}
         return str;
 //    	return new ArrayList<User>();

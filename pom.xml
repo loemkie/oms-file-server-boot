@@ -118,6 +118,15 @@
 		    <version>8.0.36</version>
 		    <scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+              <groupId>mysql</groupId>
+              <artifactId>mysql-connector-java</artifactId>
+          </dependency>
+          <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
