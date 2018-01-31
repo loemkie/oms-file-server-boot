@@ -50,7 +50,7 @@ public class SubmitDataServiceImpl implements SubmitDataService {
     public List<SubmitData> getListBySql() {
         LOGGER.debug("Retrieving the list of all users");
         EntityManager em = emf.createEntityManager();
-        List<SubmitData> submitDataList = (List<SubmitData>)em.createQuery("SELECT c FROM SubmitData c where datediff(d,update_date,getdate()) <=10  order by update_date desc").getResultList(); 
+        List<SubmitData> submitDataList = (List<SubmitData>)em.createQuery("SELECT c FROM SubmitData c where update_date>=DATEADD('DAY', -10, CURRENT_DATE)  order by update_date desc").getResultList(); 
         return submitDataList;
     }
 }
