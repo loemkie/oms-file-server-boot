@@ -19,11 +19,21 @@ public class FileUtils {
 	public static String getName(){
 		return new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
 	}
-	
+	public static String getName(String customerNumber){
+		//YYYY-MM-DD_客户编号
+		return customerNumber+"_"+new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
+	}
 	public static String getDir(){
 		String year = new SimpleDateFormat("yyyy").format(new Date()); 
         String month = new SimpleDateFormat("MM").format(new Date()); 
         String day = new SimpleDateFormat("dd").format(new Date()); 
         return "/"+year+"/"+month+"/"+day+"/";
+	}
+	
+	public static String getDir(String photoType,String memberNumber){
+		String year = new SimpleDateFormat("yyyy").format(new Date()); 
+        String month = new SimpleDateFormat("MM").format(new Date()); 
+        String day = new SimpleDateFormat("dd").format(new Date()); 
+        return "/"+photoType+"/"+year+month+day+"/"+memberNumber+"/";
 	}
 }

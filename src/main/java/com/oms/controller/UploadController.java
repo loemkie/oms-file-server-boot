@@ -4,6 +4,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -72,6 +74,72 @@ public class UploadController {
             response.setContentType("application/json; charset=utf-8");  
             // 写回  
             response.getWriter().write("{\"path\":\"/"+Global.PHOTO+path+"\"}");  
+  
+        } catch (Exception e) {  
+            throw new RuntimeException("服务器繁忙，上传图片失败",e);  
+        }  
+    }
+	/** 
+     * 使用Ajax异步上传图片 
+     *  
+     * @param pic 封装图片对象 
+     * @param request 
+     * @param response 
+     * @throws IOException  
+     * @throws IllegalStateException  
+     */  
+	@RequestMapping("/upload/uploadPics")  
+    public void uploadPics(@RequestParam("pic") MultipartFile[]  pics, HttpServletRequest request, HttpServletResponse response) throws IllegalStateException, IOException {  
+  
+        try {  
+        	HttpServletRequest httpServletRequest = (HttpServletRequest)request;
+            HttpServletResponse httpServletResponse = (HttpServletResponse)response;
+            String customerNumber = request.getParameter("customerNumber");
+            String memberNumber =  request.getParameter("memberNumber");
+            String photoType = request.getParameter("photoType");
+            
+            System.out.println("拦截请求: "+httpServletRequest.getServletPath());
+            // 获取图片原始文件名  
+            List<String> pathList = new ArrayList<String>();
+            for (int i = 0; i < pics.length; i++) {  
+            	MultipartFile pic = pics[i];
+            	String originalFilename = pic.getOriginalFilename();  
+                System.out.println(originalFilename);  
+              
+                // 文件名使用当前时间  
+                String name = FileUtils.getName(customerNumber);
+                // 获取上传图片的扩展名(jpg/png/...)  
+                String extension = FileUtils.getFileExtension(originalFilename);  
+                  
+                // 图片上传的相对路径（因为相对路径放到页面上就可以显示图片）  
+                String fileName = name + "." + extension;  
+      
+                // 图片上传的绝对路径  
+//                String url = request.getSession().getServletContext().getRealPath("") + path;  
+                //文件路径
+                String path = FileUtils.getDir(photoType,memberNumber)+fileName;
+                String url = PropertiesUtil.getPhotoPath()+path;
+                //文件所在的文件夹
+                File dir = new File(PropertiesUtil.getPhotoPath()+FileUtils.getDir(photoType,memberNumber));  
+                if(!dir.exists()) {  
+                	dir.mkdirs();  
+                }  
+                BufferedOutputStream buffStream = new BufferedOutputStream(new FileOutputStream(new File(url)));
+                buffStream.write(pic.getBytes());
+                buffStream.close();
+                pathList.add(Global.PHOTO+path);
+            }
+            
+          
+            // 设置响应数据的类型json  
+            response.setContentType("application/json; charset=utf-8");  
+            // 写回  
+            String pathStr = "";
+            for (String str : pathList) {
+            	pathStr+="/"+str+"|";
+			}
+            pathStr = pathStr.substring(0, pathStr.length()-1);
+            response.getWriter().write("{\"path\":\""+pathStr+"\"}");  
   
         } catch (Exception e) {  
             throw new RuntimeException("服务器繁忙，上传图片失败",e);  
